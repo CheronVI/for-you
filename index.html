@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>For Chaima</title>
+<style>
+  :root { --rose:#ff4d79; --deep:#1f0716; --soft:#ffe3ec; --line:#ff9ab555; }
+  * { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
+  body {
+    min-height:100vh; background: radial-gradient(circle at 30% 15%, #4a1230, var(--deep) 70%);
+    font-family: Georgia, "Times New Roman", serif; color:var(--soft); text-align:center; overflow-x:hidden;
+  }
+  .fx { position:fixed; bottom:-40px; opacity:.5; animation: rise linear forwards; pointer-events:none; z-index:0; }
+  @keyframes rise { to { transform:translateY(-115vh) rotate(25deg); opacity:0; } }
+  .wrap { position:relative; z-index:1; max-width:560px; margin:0 auto; padding:28px 20px 50px; animation: fade .9s ease; }
+  @keyframes fade { from{opacity:0; transform:translateY(12px);} to{opacity:1; transform:none;} }
+  .big { font-size:64px; display:inline-block; animation: beat 1.4s infinite; }
+  @keyframes beat { 0%,100%{transform:scale(1);} 50%{transform:scale(1.12);} }
+  .stage { letter-spacing:3px; text-transform:uppercase; font-size:.8rem; color:#ff9ab5; margin-top:6px; }
+  .dots { margin:10px 0 4px; font-size:18px; letter-spacing:6px; }
+  h1 { font-size:1.8rem; color:#fff; margin:14px 0 10px; }
+  .msg { text-align:left; white-space:pre-line; line-height:1.9; font-size:1.08rem; background:#ffffff0d; border:1px solid var(--line); border-radius:18px; padding:22px 20px; margin-top:14px; }
+  .clue { margin-top:20px; border:2px dashed var(--rose); border-radius:18px; padding:18px; background:#ff4d7912; }
+  .clue .tag { font-size:.8rem; letter-spacing:2px; text-transform:uppercase; color:#ff9ab5; margin-bottom:8px; }
+  .clue p { font-size:1.08rem; line-height:1.8; white-space:pre-line; }
+  .clue img { width:100%; border-radius:12px; margin-top:12px; display:block; }
+  .sign { text-align:right; font-style:italic; margin-top:16px; }
+  button { font-family:inherit; font-size:1.1rem; border:none; border-radius:30px; padding:13px 32px; margin:10px 8px; cursor:pointer; background:var(--rose); color:#fff; transition:transform .2s; }
+  button:hover { transform:scale(1.07); }
+  button.no { background:#ffffff22; color:var(--soft); }
+  .hidden { display:none; }
+  #q { margin-top:26px; }
+  #q h2 { font-size:1.6rem; color:#fff; margin-bottom:6px; }
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+
+<script>
+/* ====== EDIT HERE ======
+   Each QR code opens hunt.html?k=<token>. The 5 tokens are below.
+   For stages 1-4, "clue" is the hint to the NEXT place, and "photo"
+   is an optional picture of that place (file in the same repo folder).
+*/
+const STAGES = [
+  { token:"rose", clue:"[CLUE 2: to be written once the photo of place 2 is ready]", photo:"photos/2.jpg",
+    title:"Welcome, Chaima",
+    msg:`I knew you would scan it. You are far too curious to walk past a mystery.
+
+So here is the deal: there are 5 QR codes, and I will give them to you one at a time. Each one holds something I wanted to tell you.
+
+Take your time. There is no rush, only a destination.
+
+This is the first one, and the first thing I want you to know is this: you are someone who deserves effort, and I am glad to put it in.` },
+
+  { token:"moon", clue:"[CLUE 3: to be written once the photo of place 3 is ready]", photo:"photos/3.jpg",
+    title:"You are doing great",
+    msg:`Second one. Look at you, already ahead of the game.
+
+I want to tell you something about you. You have a way of looking at things that makes them more interesting. You notice details other people walk straight past, and you ask the questions nobody else thinks to ask.
+
+That quality is rare, and it is one of the reasons I admire you.
+
+Keep going. You are closer than you think.` },
+
+  { token:"star", clue:"[CLUE 4: to be written once the photo of place 4 is ready]", photo:"photos/4.jpg",
+    title:"Halfway there",
+    msg:`Third code. Halfway through.
+
+Here is something simple and honest: you make ordinary moments feel lighter. Even when I am only thinking about you, a heavy day becomes easier to carry.
+
+I do not say this to impress you. I say it because it is true, and you should hear true things about yourself more often.
+
+Two more to go. I promise it is worth it.` },
+
+  { token:"key", clue:"[CLUE 5: to be written once the photo of place 5 is ready]", photo:"photos/5.jpg",
+    title:"Almost at the end",
+    msg:`Fourth one. Only one left after this.
+
+Whatever you feel right now, a smile, a laugh, maybe a little suspicion about what I am up to, I hope part of it is warmth.
+
+Everything I wrote for you in these codes comes with respect. I would never want you to feel pressure. I only wanted to say what I feel, and to do it in a way that is worthy of you.
+
+Go. The last one is waiting.` },
+
+  { token:"heart", final:true,
+    title:"The last one, Chaima",
+    msg:`You made it to the end. Of course you did.
+
+Before I say anything else, I owe you something, and I am going to say it plainly:
+
+I am sorry.
+
+I am sorry for the silly things I did, for the times I was careless or childish, for any moment I made you feel annoyed, confused, or hurt. You did not deserve that. You deserve patience, thoughtfulness, and someone who takes care with your heart. I am sorry I was not always that.
+
+Now let me say what you truly deserve to hear.
+
+You are kind, sharp, and unforgettable. You are curious in a way that makes the world around you more alive. You have a smile that changes the mood of a whole day, and a heart that deserves to be treated gently. You deserve to be chosen on purpose, every day, not by accident.
+
+I have thought about you more than I have shown, and I wanted to do something real to prove it, not just say it. This whole hunt, every code and every clue, was my way of saying that you matter to me.
+
+So now I will ask you the one thing I came here to ask.`,
+    question:true }
+];
+
+const params = new URLSearchParams(location.search);
+const tok = params.get('k');
+const idx = STAGES.findIndex(s=>s.token===tok);
+const app = document.getElementById('app');
+
+if (idx < 0) {
+  app.innerHTML = `<div class="big">🔍</div><h1>Nice try, Chaima 😉</h1>
+  <p style="line-height:1.8;margin-top:10px">This page only opens by scanning its own QR code.<br>Go find the next one!</p>`;
+} else {
+  const s = STAGES[idx];
+  const dots = STAGES.map((_,i)=> i<=idx ? '💗' : '🤍').join('');
+  let html = `<div class="big">${s.final ? '💌' : '🔎'}</div>
+    <div class="stage">Code ${idx+1} of ${STAGES.length}</div>
+    <div class="dots">${dots}</div>
+    <h1>${s.title}</h1>
+    <div class="msg" id="msg"></div>`;
+  if (!s.final) {
+    html += `<div class="clue"><div class="tag">What's next</div>
+      <p>Your next code is coming soon. Be patient, Chaima 🌹</p>
+    </div>`;
+    html += `<div class="sign">Djad 🌹</div>`;
+  } else {
+    html += `<div id="q" class="hidden">
+      <h2>Chaima, will you be my girlfriend? 💍</h2>
+      <p style="opacity:.8">Take a breath. Take your time.</p>
+      <button id="yes">Yes 💗</button>
+      <button class="no" id="no">No</button>
+    </div>
+    <div id="done" class="hidden">
+      <div class="big">🥹</div>
+      <h1>You just made me the happiest person.</h1>
+      <p style="line-height:1.9;margin-top:10px">Thank you, Chaima. For your time, your trust, and your smile.<br>I promise to be honest, respectful, and to take care of you and of us, always.</p>
+      <div class="sign">Yours, Djad 🌹</div>
+    </div>`;
+  }
+  app.innerHTML = html;
+
+  // typewriter for the message
+  const el = document.getElementById('msg'); let i = 0;
+  (function t(){ el.textContent = s.msg.slice(0, i); i += 2;
+    if (i <= s.msg.length + 1) setTimeout(t, 18);
+    else if (s.question) document.getElementById('q').classList.remove('hidden');
+  })();
+
+  if (s.question) {
+    const no = document.getElementById('no');
+    const flee = () => { no.style.position='fixed';
+      no.style.left = Math.random()*(innerWidth-90)+'px';
+      no.style.top = Math.random()*(innerHeight-60)+'px'; };
+    no.addEventListener('mouseover', flee);
+    no.addEventListener('touchstart', e=>{ e.preventDefault(); flee(); });
+    document.getElementById('yes').onclick = () => {
+      document.getElementById('q').classList.add('hidden');
+      document.getElementById('done').classList.remove('hidden');
+      for (let k=0;k<50;k++) setTimeout(spawn, k*90);
+      window.scrollTo(0, document.body.scrollHeight);
+    };
+  }
+}
+
+function spawn(){
+  const h=document.createElement('div'); h.className='fx';
+  h.textContent=['❤️','💗','💖','🌹'][Math.floor(Math.random()*4)];
+  h.style.left=Math.random()*100+'vw'; h.style.fontSize=(14+Math.random()*22)+'px';
+  h.style.animationDuration=(5+Math.random()*6)+'s';
+  document.body.appendChild(h); setTimeout(()=>h.remove(),12000);
+}
+setInterval(spawn,1100);
+</script>
+</body>
+</html>
